@@ -2,13 +2,14 @@ import logging
 import time
 import platform
 import joblib
+import os
 import mlflow
 import mlflow.sklearn
 from pathlib import Path
 from datetime import datetime
-from src.data_loader import load_data, preprocess_data
-from src.evaluate import evaluate
-from src.model import train_model
+from data_loader import load_data, preprocess_data
+from evaluate import evaluate
+from model import train_model
 
 # Configurar logging (consola + archivo)
 logging.basicConfig(
@@ -24,11 +25,9 @@ logger=logging.getLogger("adult-income")
 run_name = f"run-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
 
 # MLflow config
-MLFLOW_URI = "http://localhost:5000"
-EXPERIMENT_NAME = "adult-income"
+EXPERIMENT_NAME = os.getenv("EXPERIMENT_NAME", "no_experiment_name_found")
+run_name = os.getenv("RUN_NAME", "no_experiment_name_found")
 
-mlflow.set_tracking_uri(MLFLOW_URI)
-mlflow.set_experiment(EXPERIMENT_NAME)
 
 # Paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -37,6 +36,8 @@ MODEL_DIR = PROJECT_ROOT / "models"
 MODEL_DIR.mkdir(exist_ok=True)
 
 def main():
+    mlflow.set_tracking_uri(os.getenv("MLFLOW_URI", "no_name_found"))
+    mlflow.set_experiment(EXPERIMENT_NAME)
     script_start = time.time()
     logger.info(f"System info: {platform.platform()}")
 
