@@ -21,8 +21,6 @@ ENV/
 .ipynb_checkpoints/
 *.nbconvert.ipynb
 
-
-
 # --- Experiment configs ---
 *.tfvars
 *.tfplan
@@ -64,3 +62,21 @@ docker-compose.override.yml
 *.key
 .envrc
 .env.*
+
+# --- ML & data artifacts ---
+models/
+*.log
+*.h5
+*.pkl
+*.joblib
+*.ckpt
+
+# --- Data files ---
+data/
+*.csv
+*.tsv
+*.json
+*.xlsx
+*.parquet
+*.zip
+*.gz
